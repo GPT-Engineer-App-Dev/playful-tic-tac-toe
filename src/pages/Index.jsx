@@ -11,12 +11,56 @@ const Index = () => {
   const [singlePlayer, setSinglePlayer] = useState(false);
   const winner = calculateWinner(board);
 
+  const minimax = (board, depth, isMaximizingPlayer) => {
+    const winner = calculateWinner(board);
+    if (winner === "X") return -10 + depth;
+    if (winner === "O") return 10 - depth;
+    if (isBoardFull(board)) return 0;
+
+    if (isMaximizingPlayer) {
+      let bestScore = -Infinity;
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === null) {
+          board[i] = "O";
+          let score = minimax(board, depth + 1, false);
+          board[i] = null;
+          bestScore = Math.max(score, bestScore);
+        }
+      }
+      return bestScore;
+    } else {
+      let bestScore = Infinity;
+      for (let i = 0; i < board.length; i++) {
+        if (board[i] === null) {
+          board[i] = "X";
+          let score = minimax(board, depth + 1, true);
+          board[i] = null;
+          bestScore = Math.min(score, bestScore);
+        }
+      }
+      return bestScore;
+    }
+  };
+
   const makeAIMove = () => {
-    const availableMoves = board.map((value, index) => (value === null ? index : null)).filter((value) => value !== null);
-    if (availableMoves.length === 0) return;
-    const randomIndex = Math.floor(Math.random() * availableMoves.length);
-    const move = availableMoves[randomIndex];
-    handleClick(move, true);
+    let bestScore = -Infinity;
+    let move;
+    for (let i = 0; i < board.length; i++) {
+      if (board[i] === null) {
+        board[i] = "O";
+        let score = minimax(board, 0, false);
+        board[i] = null;
+        if (score > bestScore) {
+          bestScore = score;
+          move = i;
+        }
+      }
+    }
+    if (move !== undefined) handleClick(move, true);
+  };
+
+  const isBoardFull = (board) => {
+    return board.every((value) => value !== null);
   };
 
   const handleClick = (index, isAI = false) => {
