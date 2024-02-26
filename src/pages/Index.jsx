@@ -92,9 +92,7 @@ const Index = () => {
 
   return (
     <VStack spacing={8} p={5}>
-      <Heading as="h1" size="xl" textAlign="center">
-        Tic-Tac-Toe
-      </Heading>
+      <Heading as="h1" size="xl" textAlign="center"></Heading>
       <Grid templateRows="repeat(3, 1fr)" templateColumns="repeat(3, 1fr)" gap={2} w="300px" h="300px">
         {Array(9)
           .fill(null)
