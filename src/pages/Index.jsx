@@ -99,13 +99,21 @@ const Index = () => {
           .fill(null)
           .map((_, index) => renderSquare(index))}
       </Grid>
-      {winner &&
-        toast({
-          title: `Player ${winner} won!`,
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        })}
+      {winner
+        ? toast({
+            title: `Player ${winner} won!`,
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+          })
+        : isBoardFull(board) &&
+          !winner &&
+          toast({
+            title: `It's a tie!`,
+            status: "info",
+            duration: 3000,
+            isClosable: true,
+          })}
 
       <Button colorScheme="blue" onClick={handleReset}>
         New Game
