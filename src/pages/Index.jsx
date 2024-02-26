@@ -116,7 +116,7 @@ const Index = () => {
             isClosable: true,
           })}
 
-      <Button colorScheme="blue" onClick={handleReset}>
+      <Button colorScheme="green" onClick={handleReset}>
         New Game
       </Button>
       {isXNext === false && makeAIMove()}
