@@ -14,7 +14,8 @@ const Index = () => {
   const makeAIMove = () => {
     const availableMoves = board.map((value, index) => (value === null ? index : null)).filter((value) => value !== null);
     if (availableMoves.length === 0) return;
-    const move = availableMoves[0];
+    const randomIndex = Math.floor(Math.random() * availableMoves.length);
+    const move = availableMoves[randomIndex];
     handleClick(move, true);
   };
 
