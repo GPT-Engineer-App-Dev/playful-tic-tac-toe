@@ -8,7 +8,7 @@ const Index = () => {
   const toast = useToast();
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
-  const [singlePlayer, setSinglePlayer] = useState(false);
+
   const winner = calculateWinner(board);
 
   const minimax = (board, depth, isMaximizingPlayer) => {
@@ -64,7 +64,7 @@ const Index = () => {
   };
 
   const handleClick = (index, isAI = false) => {
-    if (board[index] || winner || (!isAI && !isXNext && singlePlayer)) {
+    if (board[index] || winner || (!isAI && !isXNext)) {
       return;
     }
     const boardCopy = [...board];
@@ -76,7 +76,6 @@ const Index = () => {
   const handleReset = () => {
     setBoard(Array(9).fill(null));
     setIsXNext(true);
-    setSinglePlayer(false);
   };
 
   const renderSquare = (index) => {
@@ -107,16 +106,11 @@ const Index = () => {
           duration: 3000,
           isClosable: true,
         })}
-      <Flex align="center" justify="center" w="100%">
-        <Switch id="single-player-switch" isChecked={singlePlayer} onChange={() => setSinglePlayer(!singlePlayer)} />
-        <FormLabel htmlFor="single-player-switch" mb="0" ml={2}>
-          Single Player
-        </FormLabel>
-      </Flex>
+
       <Button colorScheme="blue" onClick={handleReset}>
         New Game
       </Button>
-      {singlePlayer && isXNext === false && makeAIMove()}
+      {isXNext === false && makeAIMove()}
     </VStack>
   );
 };
