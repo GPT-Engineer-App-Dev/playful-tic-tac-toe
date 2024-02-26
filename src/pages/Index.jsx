@@ -13,8 +13,9 @@ const Index = () => {
 
   const minimax = (board, depth, isMaximizingPlayer) => {
     const winner = calculateWinner(board);
-    if (winner === "X") return -10 + depth;
-    if (winner === "O") return 10 - depth;
+
+    if (winner === "X") return -1;
+    if (winner === "O") return 1 - depth / 10;
     if (isBoardFull(board)) return 0;
 
     if (isMaximizingPlayer) {
