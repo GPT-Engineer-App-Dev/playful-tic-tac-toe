@@ -2,14 +2,24 @@ import React, { useState } from "react";
 import { Box, Flex, Grid, GridItem, Button, Text, useToast, chakra, VStack, Heading } from "@chakra-ui/react";
 import { FaTimes, FaRegCircle } from "react-icons/fa";
 
+import { Switch, FormLabel } from "@chakra-ui/react";
+
 const Index = () => {
   const toast = useToast();
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
+  const [singlePlayer, setSinglePlayer] = useState(false);
   const winner = calculateWinner(board);
 
-  const handleClick = (index) => {
-    if (board[index] || winner) {
+  const makeAIMove = () => {
+    const availableMoves = board.map((value, index) => (value === null ? index : null)).filter((value) => value !== null);
+    if (availableMoves.length === 0) return;
+    const move = availableMoves[0];
+    handleClick(move, true);
+  };
+
+  const handleClick = (index, isAI = false) => {
+    if (board[index] || winner || (!isAI && !isXNext && singlePlayer)) {
       return;
     }
     const boardCopy = [...board];
@@ -21,6 +31,7 @@ const Index = () => {
   const handleReset = () => {
     setBoard(Array(9).fill(null));
     setIsXNext(true);
+    setSinglePlayer(false);
   };
 
   const renderSquare = (index) => {
@@ -51,9 +62,16 @@ const Index = () => {
           duration: 3000,
           isClosable: true,
         })}
+      <Flex align="center" justify="center" w="100%">
+        <Switch id="single-player-switch" isChecked={singlePlayer} onChange={() => setSinglePlayer(!singlePlayer)} />
+        <FormLabel htmlFor="single-player-switch" mb="0" ml={2}>
+          Single Player
+        </FormLabel>
+      </Flex>
       <Button colorScheme="blue" onClick={handleReset}>
         New Game
       </Button>
+      {singlePlayer && isXNext === false && makeAIMove()}
     </VStack>
   );
 };
