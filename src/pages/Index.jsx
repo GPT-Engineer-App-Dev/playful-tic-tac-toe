@@ -81,7 +81,7 @@ const Index = () => {
   const renderSquare = (index) => {
     return (
       <GridItem w="100%" h="100%">
-        <Button h="100%" w="100%" fontSize="5xl" colorScheme="accent" variant="solid" onClick={() => handleClick(index)}>
+        <Button h="100%" w="100%" fontSize="5xl" color={board[index] === "X" ? "red.500" : "blue.500"} variant="solid" onClick={() => handleClick(index)}>
           {board[index] === "X" && <FaTimes />}
           {board[index] === "O" && <FaRegCircle />}
         </Button>
@@ -90,7 +90,7 @@ const Index = () => {
   };
 
   return (
-    <VStack spacing={8} p={5} bgGradient="linear(to-r, brand.300, accent.400)">
+    <VStack spacing={8} p={5}>
       <Heading as="h1" size="xl" textAlign="center">
         Tic-Tac-Toe
       </Heading>
